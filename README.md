@@ -12,6 +12,8 @@ git clone https://github.com/idocal/competing-risks.git
 cd competing-risks
 ```
 
+Now add your CSV data file to `server/data` directory.
+
 To start the R server:
 ```sh
 cd server
