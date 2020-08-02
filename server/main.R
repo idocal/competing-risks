@@ -88,14 +88,33 @@ dataset = dataset,
 TERMINAL_STATES,
 update_covariates)
 
-get_patient <- function(age, gender, start_state_type, start_state) {
+get_patient <- function(age, gender, start_state_type, start_state, states) {
     print("simulating patient...")
-    patient <- list(covariates_at_T = construct_cov(age, gender, start_state_type),
-                    state_at_T = start_state)
+    covariates <- construct_cov(age, gender, start_state_type)
+    if (length(states)) {
+        medical_states <- c(states$medicalState)
+        times <- c(states$hospital)
+        print(times)
+        print(medical_states)
+        # times <- c(10, 5)
+        # medical_states <- c(MILD_OR_MODERATE, SEVERE)
+        patient <- list(covariates_at_T = covariates, state_at_T = start_state, 
+                        states = medical_states, time_at_each_state = times)
+        patient$covariates_at_T <- get_sample_cov_at_end(patient)
+        time_in_hospital <- sum(patient$time_at_each_state)
+        origin_state <- tail(patient$states, 1)
+    }
+
+    else {
+        patient <- list(covariates_at_T = covariates, state_at_T = start_state)
+        time_in_hospital <- 0
+        origin_state <- patient$state_at_T
+    }
+
     patient$all_runs <- model$run_monte_carlo_simulation(
                                 patient$covariates_at_T,
-                                origin_state = patient$state_at_T,
-                                current_time = 0,
+                                origin_state = origin_state,
+                                current_time = time_in_hospital,
                                 n_random_samples = N_MONTE_CARLO_RUNS,
                                 max_transitions = MAX_PATH_LENGTH)
     print("returned patient!")
@@ -108,18 +127,6 @@ count_paths <- function(all_runs) {
     path_counts <- data.frame(table(unlist(paths)))
     colnames(path_counts) <- c("path", "# of runs")
     return(path_counts)
-}
-
-incomplete_path <- function(path) {
-    incomplete_indx <- 0
-    L <- length(path)
-    if (path[L] == "23" || path[L] == "4") incomplete_indx <- 1
-    return(incomplete_indx)
-}
-
-count_incomplete_paths <- function(all_runs) {
-    paths <- lapply(all_runs, function(run) incomplete_path(run$states))
-    return(mean(unlist(paths)))
 }
 
 death_path <- function(path) {
@@ -155,19 +162,36 @@ time_at_severe <- function(run) {
 # Calculate statistics
 get_death_prob <- function(all_runs) {
     print("calculating death probability...")
-    incomplete_rate <- count_incomplete_paths(all_runs)
-    death_prob <- death_rate(all_runs)
-    death_prob
+    death_rate(all_runs)
 }
 
 get_time_at_hospital <- function(all_runs) {
     print("calculating time at hospital...")
-    times <- as.numeric(lapply(all_runs, function(run) time_at_hospital(run)))
-    round(quantile(times, probs = c(0.1, 0.25, 0.5, 0.75, 0.9)))
+    times <- c(as.numeric(lapply(all_runs, function(run) time_at_hospital(run))))
+    times_matrix <- data.frame(times)
+    graph <- ggplot(times_matrix, aes(round(times))) + stat_ecdf()
+    graph.data <- layer_data(graph)
+    ret <- list()
+    ret$x <- graph.data$x
+    ret$y <- graph.data$y
+    ret
+    # round(quantile(times, probs = c(0.1, 0.25, 0.5, 0.75, 0.9)))
+}
+
+get_time_at_hospital_quantiles <- function(all_runs) {
+    print("calculating time at hospital quantiles...")
+    times <- c(as.numeric(lapply(all_runs, function(run) time_at_hospital(run))))
+    quantile(times, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
 }
 
 get_time_at_severe <- function(all_runs) {
     print("calculating time at severe...")
     times <- as.numeric(lapply(all_runs, function(run) time_at_severe(run)))
     mean(times[times > 0])
+}
+
+get_time_at_severe_quantiles <- function(all_runs) {
+    print("calculating time at severe quantiles...")
+    times <- as.numeric(lapply(all_runs, function(run) time_at_severe(run)))
+    quantile(times[times > 0], probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
 }
