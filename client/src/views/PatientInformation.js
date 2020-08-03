@@ -210,6 +210,7 @@ export default function PatientInformation({ getAnalysis }) {
                                 </ListGroupItem>
                             </ListGroup>
                         </Card>
+                        <div className="footer">Designed and developed by <a href="https://www.idocal.com" target="_blank">Ido Calman</a></div>
                     </Col>
                 </Row>
             </Container>

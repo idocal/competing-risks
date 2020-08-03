@@ -42,8 +42,9 @@ Each requests expects:
 * Gender (Male 1 or Female 2)
 * Start State Type
 * Start State 
+* Visited States
 
 Example request:
 ```sh
-curl --data '{"age": 45, "gender": 1, "start_state_type": 3, "start_state": 23}'  "http://localhost:8000/patient"
+curl --data '{"age": 45, "gender": 1, "start_state_type": 3, "start_state": 23, "states": [{"medicalState": 2, "hospital": 5}]}'  "http://localhost:8000/patient"
 ```

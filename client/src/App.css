@@ -9,3 +9,10 @@ html, body, #root {
     width: 100%;
     justify-content: center;
 }
+
+.footer {
+    margin-top: 20px;
+    font-size: 12px;
+    text-align: center;
+    color: #a0a0a0;
+}
