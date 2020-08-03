@@ -27,7 +27,6 @@ export default function() {
   const [appState, setAppState] = useState(initialState)
   async function getAnalysis({age, gender, startState, states}) {
     let start_state_type = stateType(startState.medicalState)
-    console.log('analyzing', {age, gender, startState, states, start_state_type})
     setAppState({analysis: {}, isLoading: true})
     const response = await fetch("/patient", {
       method: 'POST',
@@ -38,7 +37,6 @@ export default function() {
       body: JSON.stringify({age, gender, start_state_type, start_state: startState.medicalState, states})
     });
     const content = await response.json();
-    console.log(content)
     setAppState({
       analysis: content,
       isLoading: false

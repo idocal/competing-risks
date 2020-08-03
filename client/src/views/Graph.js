@@ -6,7 +6,6 @@ import Chart from "../utils/chart";
 class Graph extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
     this.chartData = {
         labels: props.x.sort(function(a,b){return a - b}),
         datasets: [
