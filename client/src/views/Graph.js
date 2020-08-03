@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
+import { Card, CardHeader, CardBody } from "shards-react";
 import Chart from "../utils/chart";
 
 class Graph extends React.Component {

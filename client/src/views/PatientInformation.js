@@ -10,8 +10,7 @@ import {
     Form,
     FormSelect,
     Button,
-    Slider,
-    FormCheckbox
+    Slider
 } from "shards-react";
 
 const genders = {
