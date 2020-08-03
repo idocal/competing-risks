@@ -49,71 +49,74 @@ export default function Results({ analysis }) {
     ]
 
     return (
-        <div className="center">
-            <Container fluid className="main-content-container px-4">
-                <Row>
-                    {smallStats.map((stats, idx) => (
-                        <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
-                            <SmallStats
-                                id={`small-stats-${idx}`}
-                                variation="1"
-                                chartData={stats.datasets}
-                                chartLabels={stats.chartLabels}
-                                label={stats.label}
-                                value={stats.value}
-                                percentage={stats.percentage}
-                                increase={stats.increase}
-                                decrease={stats.decrease}
-                            />
-                        </Col>
-                    ))}
-                </Row>
-                <Row>
-                    <Col className="col-lg mb-4">
-                        <Card small>
-                            <CardHeader className="border-bottom">
-                                <h6 className="m-0">Days in Hospital Quantiles</h6>
-                                <div className="block-handle" />
-                            </CardHeader>
-
-                            <CardBody className="p-0">
-                                <ListGroup small flush className="list-group-small">
-                                    {analysis.hospital_quantiles.map((item, idx) => (
-                                        <ListGroupItem key={idx} className="d-flex px-3">
-                                            <span className="text-semibold text-fiord-blue">{quantiles[idx]}</span>
-                                            <span className="ml-auto text-right text-semibold text-reagent-gray">
-                                                {item}
-                                            </span>
-                                        </ListGroupItem>
-                                    ))}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
+        <Container fluid className="main-content-container px-4" style={{ marginTop: '15px' }}>
+            <Row>
+                {smallStats.map((stats, idx) => (
+                    <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
+                        <SmallStats
+                            id={`small-stats-${idx}`}
+                            variation="1"
+                            chartData={stats.datasets}
+                            chartLabels={stats.chartLabels}
+                            label={stats.label}
+                            value={stats.value}
+                            percentage={stats.percentage}
+                            increase={stats.increase}
+                            decrease={stats.decrease}
+                        />
                     </Col>
-                    <Col className="col-lg mb-4">
-                        <Card small>
-                            <CardHeader className="border-bottom">
-                                <h6 className="m-0">Days in Severe Condition Quantiles</h6>
-                                <div className="block-handle" />
-                            </CardHeader>
+                ))}
+            </Row>
+            <Row>
+                <Col className="col-lg mb-4">
+                    <Card small>
+                        <CardHeader className="border-bottom">
+                            <h6 className="m-0">Days in Hospital Quantiles</h6>
+                            <div className="block-handle" />
+                        </CardHeader>
 
-                            <CardBody className="p-0">
-                                <ListGroup small flush className="list-group-small">
-                                    {analysis.severe_quantiles.map((item, idx) => (
-                                        <ListGroupItem key={idx} className="d-flex px-3">
-                                            <span className="text-semibold text-fiord-blue">{quantiles[idx]}</span>
-                                            <span className="ml-auto text-right text-semibold text-reagent-gray">
-                                                {item}
-                                            </span>
-                                        </ListGroupItem>
-                                    ))}
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+                        <CardBody className="p-0">
+                            <ListGroup small flush className="list-group-small">
+                                {analysis.hospital_quantiles.map((item, idx) => (
+                                    <ListGroupItem key={idx} className="d-flex px-3">
+                                        <span className="text-semibold text-fiord-blue">{quantiles[idx]}</span>
+                                        <span className="ml-auto text-right text-semibold text-reagent-gray">
+                                            {item}
+                                        </span>
+                                    </ListGroupItem>
+                                ))}
+                            </ListGroup>
+                        </CardBody>
+                    </Card>
+                </Col>
+                <Col className="col-lg mb-4">
+                    <Card small>
+                        <CardHeader className="border-bottom">
+                            <h6 className="m-0">Days in Severe Condition Quantiles</h6>
+                            <div className="block-handle" />
+                        </CardHeader>
+
+                        <CardBody className="p-0">
+                            <ListGroup small flush className="list-group-small">
+                                {analysis.severe_quantiles.map((item, idx) => (
+                                    <ListGroupItem key={idx} className="d-flex px-3">
+                                        <span className="text-semibold text-fiord-blue">{quantiles[idx]}</span>
+                                        <span className="ml-auto text-right text-semibold text-reagent-gray">
+                                            {item}
+                                        </span>
+                                    </ListGroupItem>
+                                ))}
+                            </ListGroup>
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="col-lg mb-4">
+                    <Graph x={analysis.hospital.x} y={analysis.hospital.y} />
+                </Col>
+            </Row>
+        </Container>
 
 
     )
