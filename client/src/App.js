@@ -24,7 +24,6 @@ const stateType = function(state) {
 }
 
 export default function() {
-  console.log(config)
   const [appState, setAppState] = useState(initialState)
   async function getAnalysis({age, gender, startState, states}) {
     let start_state_type = stateType(startState.medicalState)
