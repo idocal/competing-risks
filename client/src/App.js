@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PatientInformation from "./views/PatientInformation";
 import Results from "./views/Results";
+import config from "./config"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/shards-dashboards.1.1.0.min.css";
@@ -24,11 +25,13 @@ const stateType = function(state) {
 }
 
 export default function() {
+  console.log(config)
   const [appState, setAppState] = useState(initialState)
   async function getAnalysis({age, gender, startState, states}) {
     let start_state_type = stateType(startState.medicalState)
     setAppState({analysis: {}, isLoading: true})
-    const response = await fetch("/patient", {
+    let url = config['API_HOST'] + "patient"
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -7,6 +7,12 @@ function(msg="") {
   list(msg = paste0("The message is: '", msg, "'"))
 }
 
+#* @filter cors
+cors <- function(res) {
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    plumber::forward()
+}
+
 #* @post /patient
 function(age, gender, start_state_type, start_state, states) {
   patient <- get_patient(age = as.numeric(age),

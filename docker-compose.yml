@@ -1,0 +1,15 @@
+version: '2'
+services:
+  server:
+    build: ./server/
+    volumes:
+     - ./server:/app
+    restart: always
+    ports:
+     - "8080:8000"
+  client:
+    build: ./client/
+    volumes:
+      - ./client:/app
+    ports:
+      - "5000:80"
