@@ -2,7 +2,7 @@ let env = process.env.NODE_ENV
 console.log('env:', env)
 
 const config = {
-    API_HOST: 'http://localhost:8080/'
+    API_HOST: '/'
 }
 
 if (env === 'development') {
