@@ -128,7 +128,7 @@ Graph.propTypes = {
 };
 
 Graph.defaultProps = {
-  title: "Time in Hospital CDF"
+  title: "Time Left in Hospital CDF"
 };
 
 export default Graph;

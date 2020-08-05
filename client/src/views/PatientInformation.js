@@ -18,14 +18,14 @@ const genders = {
     'Female': 2
 }
 
-const medicalStates = {
+const startMedicalStates = {
     'Mild': 2,
     'Moderate': 3,
     'Severe': 4
 }
 
-const startMedicalStates = {
-    'Mild/Moderate': 23,
+const medicalStates = {
+    'Mild / Moderate': 23,
     'Severe': 4,
     'Recovered / OOHQ': 16
 }
@@ -34,10 +34,26 @@ const initialState = {
     age: 30,
     gender: 1,
     startState: {
-        medicalState: startMedicalStates['Mild/Moderate'],
+        medicalState: startMedicalStates['Mild'],
         hospital: 5
     },
-    states: []
+    states: [],
+    possibleStates : []
+}
+
+const possibleStateTransition = state => {
+    // Transition from Mild/Moderate
+    if (state === 2 || state === 3 || state === 23) {
+        return ['Severe', 'Recovered / OOHQ']
+    }
+    // Transition from Severe
+    if (state === 4) {
+        return ['Mild / Moderate', 'Recovered / OOHQ']
+    }
+    // Transition from OOHQ
+    if (state === 16) {
+        return ['Mild / Moderate']
+    }
 }
 
 export default function PatientInformation({ getAnalysis }) {
@@ -69,12 +85,19 @@ export default function PatientInformation({ getAnalysis }) {
         setInfo({...info, states})
     }
     const addState = () => {
+        let currentStates = info.states.length
+        let lastState = (currentStates) ? info.states[currentStates - 1] : info.startState
+        lastState = lastState.medicalState
+        let nextPossibleStates = possibleStateTransition(lastState)
+        let possibleStates = [...info.possibleStates, nextPossibleStates]
+        console.log('possible', possibleStates)
+
         let newState = {
-            medicalState: medicalStates['Mild'],
+            medicalState: medicalStates[nextPossibleStates[0]],
             hospital: 1
         }
         let states = [...info.states, newState]
-        setInfo({ ...info, states })
+        setInfo({ ...info, states, possibleStates })
     }
 
     return (
@@ -99,12 +122,12 @@ export default function PatientInformation({ getAnalysis }) {
                                                             className="age-slider"
                                                             connect={[true, false]}
                                                             start={[info.age]}
-                                                            range={{ min: 1, max: 100 }}
+                                                            range={{ min: 18, max: 100 }}
                                                             tooltips
                                                             step={1}
                                                             pips={{
                                                                 mode: "positions",
-                                                                values: [0, 24, 49, 75, 100],
+                                                                values: [0, 39, 70, 100],
                                                                 stepped: true,
                                                                 density: 5
                                                             }}
@@ -112,7 +135,7 @@ export default function PatientInformation({ getAnalysis }) {
                                                         />
                                                     </Col>
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="feGender">Gender</label>
+                                                        <label htmlFor="feGender">Sex</label>
                                                         <FormSelect onChange={event => setGender(event.target.value)}
                                                             id="feGender" style={{ marginTop: '15px' }}>
                                                             {
@@ -128,7 +151,7 @@ export default function PatientInformation({ getAnalysis }) {
                                                     <Col md="6" className="form-group">
                                                         <Row form>
                                                             <label htmlFor="feState">Start State</label>
-                                                            <FormSelect onChange={event => setStartMedicalState(event.target.value)}
+                                                            <FormSelect disabled = {info.states.length} onChange={event => setStartMedicalState(event.target.value)}
                                                                 id="feState" style={{ marginTop: '15px' }}>
                                                                 {
                                                                     Object.keys(startMedicalStates).map((s) => (
@@ -141,7 +164,8 @@ export default function PatientInformation({ getAnalysis }) {
                                                     <Col md="6" className="form-group">
                                                         <label htmlFor="feAge">Days in Hospital</label>
                                                         <Slider
-                                                            className="age-slider"
+                                                            className="hospital-slider"
+                                                            disabled = {info.states.length}
                                                             connect={[true, false]}
                                                             start={[info.startState.hospital]}
                                                             range={{ min: 1, max: 100 }}
@@ -159,17 +183,17 @@ export default function PatientInformation({ getAnalysis }) {
                                                 </Row>
 
                                                 {
-                                                    info.states.map((s, key) => {
+                                                    info.possibleStates.map((options, key) => {
                                                         return (
                                                             <Row key={key} form>
                                                                 <Col md="6" className="form-group">
                                                                     <Row form>
                                                                         <label htmlFor="feState">State {key + 1}</label>
-                                                                        <FormSelect onChange={event => setMedicalState(event.target.value, key)}
+                                                                        <FormSelect disabled = {key !== info.states.length - 1} onChange={event => setMedicalState(event.target.value, key)}
                                                                             id="feState" style={{ marginTop: '15px' }}>
                                                                             {
-                                                                                Object.keys(medicalStates).map((s) => (
-                                                                                    <option key={s}>{s}</option>
+                                                                                Object.keys(options).map((option) => (
+                                                                                    <option key={option}>{options[option]}</option>
                                                                                 ))
                                                                             }
                                                                         </FormSelect>
@@ -178,9 +202,10 @@ export default function PatientInformation({ getAnalysis }) {
                                                                 <Col md="6" className="form-group">
                                                                     <label htmlFor="feAge">Days in Hospital</label>
                                                                     <Slider
-                                                                        className="age-slider"
+                                                                        className="hospital-slider"
+                                                                        disabled = {key !== info.states.length - 1}
                                                                         connect={[true, false]}
-                                                                        start={[s.hospital]}
+                                                                        start={[info.states[key].hospital]}
                                                                         range={{ min: 1, max: 100 }}
                                                                         tooltips
                                                                         step={1}

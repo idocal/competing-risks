@@ -71,12 +71,16 @@ export default function Results({ analysis }) {
                 <Col className="col-lg mb-4">
                     <Card small>
                         <CardHeader className="border-bottom">
-                            <h6 className="m-0">Days in Hospital Quantiles</h6>
+                            <h6 className="m-0">Length of Hospital Stay</h6>
                             <div className="block-handle" />
                         </CardHeader>
 
                         <CardBody className="p-0">
                             <ListGroup small flush className="list-group-small">
+                                <ListGroupItem className="d-flex px-3">
+                                    <span className="text-fiord-blue" style={{ fontWeight: 700 }}>Quantile</span>
+                                    <span className="ml-auto text-right text-fiord-blue" style={{ fontWeight: 700 }}>Days</span>
+                                </ListGroupItem>
                                 {analysis.hospital_quantiles.map((item, idx) => (
                                     <ListGroupItem key={idx} className="d-flex px-3">
                                         <span className="text-semibold text-fiord-blue">{quantiles[idx]}</span>
@@ -92,12 +96,16 @@ export default function Results({ analysis }) {
                 <Col className="col-lg mb-4">
                     <Card small>
                         <CardHeader className="border-bottom">
-                            <h6 className="m-0">Days in Severe Condition Quantiles</h6>
+                            <h6 className="m-0">Length of Severe Condition</h6>
                             <div className="block-handle" />
                         </CardHeader>
 
                         <CardBody className="p-0">
                             <ListGroup small flush className="list-group-small">
+                                <ListGroupItem className="d-flex px-3">
+                                    <span className="text-fiord-blue" style={{ fontWeight: 700 }}>Quantile</span>
+                                    <span className="ml-auto text-right text-fiord-blue" style={{ fontWeight: 700 }}>Days</span>
+                                </ListGroupItem>
                                 {analysis.severe_quantiles.map((item, idx) => (
                                     <ListGroupItem key={idx} className="d-flex px-3">
                                         <span className="text-semibold text-fiord-blue">{quantiles[idx]}</span>

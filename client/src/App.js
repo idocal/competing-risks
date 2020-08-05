@@ -13,20 +13,17 @@ const initialState = {
 }
 
 const stateType = function(state) {
-  let stateList = state.toString().split('')
-  if (stateList.includes("3")) {
-    return 3
+  if (state === 2 || state === 3) {
+    return 23
   }
-  else if (stateList.includes("4")){
-    return 4
-  }
-  return 0
+  return state
 }
 
 export default function() {
   const [appState, setAppState] = useState(initialState)
   async function getAnalysis({age, gender, startState, states}) {
-    let start_state_type = stateType(startState.medicalState)
+    let start_state_type = startState.medicalState
+    let start_state = stateType(startState.medicalState)
     setAppState({analysis: {}, isLoading: true})
     const response = await fetch("/patient", {
       method: 'POST',
@@ -34,7 +31,7 @@ export default function() {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({age, gender, start_state_type, start_state: startState.medicalState, states})
+      body: JSON.stringify({age, gender, start_state_type, start_state, states})
     });
     const content = await response.json();
     setAppState({
@@ -59,7 +56,12 @@ export default function() {
       <div>
         {
           appState.isLoading ?
-          <div className="center"><CircularProgress /></div> :
+          <div className="center">
+            <CircularProgress />
+            <div className="loading-text" style={{marginTop: '15px'}}>
+              Running Monte Carlo Simulations...
+            </div>
+            </div> :
           screen(appState.analysis)
         }        
       </div>
