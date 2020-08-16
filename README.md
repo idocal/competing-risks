@@ -6,6 +6,12 @@ A Multi State Competing Risks model to predict COVID-19 medical conditions
 * Node >= 13.0
 
 # Quickstart
+```
+cd competing-risks
+docker-compose up
+```
+
+# Development
 First, clone this repository:
 ```sh
 git clone https://github.com/idocal/competing-risks.git
