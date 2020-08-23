@@ -165,6 +165,12 @@ get_death_prob <- function(all_runs) {
     death_rate(all_runs)
 }
 
+get_severe_prob <- function(all_runs) {
+    print("calculating entering severe probability...")
+    times <- as.numeric(lapply(all_runs, function(run) time_at_severe(run)))
+    mean(times > 0)
+}
+
 get_time_at_hospital <- function(all_runs) {
     print("calculating time at hospital...")
     times <- c(as.numeric(lapply(all_runs, function(run) time_at_hospital(run))))
@@ -195,3 +201,4 @@ get_time_at_severe_quantiles <- function(all_runs) {
     times <- as.numeric(lapply(all_runs, function(run) time_at_severe(run)))
     quantile(times[times > 0], probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
 }
+

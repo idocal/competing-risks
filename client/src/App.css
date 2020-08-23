@@ -11,6 +11,17 @@ html, body, #root {
     justify-content: center;
 }
 
+.subtitle {
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.info-subtitle {
+    font-weight: 700;
+    margin-right: 5px;
+    color: #3d5170 !important;
+}
+
 .footer {
     margin-top: 20px;
     font-size: 12px;

@@ -19,14 +19,14 @@ const genders = {
 }
 
 const startMedicalStates = {
-    'Mild': 2,
-    'Moderate': 3,
-    'Severe': 4
+    'Moderate': 2,
+    'Severe': 3,
+    'Critical': 4
 }
 
 const medicalStates = {
-    'Mild / Moderate': 23,
-    'Severe': 4,
+    'Moderate / Severe': 23,
+    'Critical': 4,
     'Recovered / OOHQ': 16
 }
 
@@ -34,7 +34,7 @@ const initialState = {
     age: 30,
     gender: 1,
     startState: {
-        medicalState: startMedicalStates['Mild'],
+        medicalState: startMedicalStates['Moderate'],
         hospital: 5
     },
     states: [],
@@ -44,15 +44,15 @@ const initialState = {
 const possibleStateTransition = state => {
     // Transition from Mild/Moderate
     if (state === 2 || state === 3 || state === 23) {
-        return ['Severe', 'Recovered / OOHQ']
+        return ['Critical', 'Recovered / OOHQ']
     }
     // Transition from Severe
     if (state === 4) {
-        return ['Mild / Moderate', 'Recovered / OOHQ']
+        return ['Moderate / Severe', 'Recovered / OOHQ']
     }
     // Transition from OOHQ
     if (state === 16) {
-        return ['Mild / Moderate']
+        return ['Moderate / Severe']
     }
 }
 
@@ -90,7 +90,6 @@ export default function PatientInformation({ getAnalysis }) {
         lastState = lastState.medicalState
         let nextPossibleStates = possibleStateTransition(lastState)
         let possibleStates = [...info.possibleStates, nextPossibleStates]
-        console.log('possible', possibleStates)
 
         let newState = {
             medicalState: medicalStates[nextPossibleStates[0]],
@@ -165,15 +164,14 @@ export default function PatientInformation({ getAnalysis }) {
                                                         <label htmlFor="feAge">Days in Hospital</label>
                                                         <Slider
                                                             className="hospital-slider"
-                                                            disabled = {info.states.length}
                                                             connect={[true, false]}
                                                             start={[info.startState.hospital]}
-                                                            range={{ min: 1, max: 100 }}
+                                                            range={{ min: 0, max: 60 }}
                                                             tooltips
                                                             step={1}
                                                             pips={{
                                                                 mode: "positions",
-                                                                values: [0, 24, 49, 75, 100],
+                                                                values: [0, 25, 50, 75, 100],
                                                                 stepped: true,
                                                                 density: 5
                                                             }}
@@ -203,15 +201,14 @@ export default function PatientInformation({ getAnalysis }) {
                                                                     <label htmlFor="feAge">Days in Hospital</label>
                                                                     <Slider
                                                                         className="hospital-slider"
-                                                                        disabled = {key !== info.states.length - 1}
                                                                         connect={[true, false]}
                                                                         start={[info.states[key].hospital]}
-                                                                        range={{ min: 1, max: 100 }}
+                                                                        range={{ min: 1, max: 60 }}
                                                                         tooltips
                                                                         step={1}
                                                                         pips={{
                                                                             mode: "positions",
-                                                                            values: [0, 24, 49, 75, 100],
+                                                                            values: [0, 25, 49, 75, 100],
                                                                             stepped: true,
                                                                             density: 5
                                                                         }}
