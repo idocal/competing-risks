@@ -7,7 +7,9 @@ A Multi State Competing Risks model to predict COVID-19 medical conditions
 
 # Quickstart
 ```
-cd competing-risks
+cd competing-risks/client
+npm run build
+cd ..
 docker-compose up
 ```
 
