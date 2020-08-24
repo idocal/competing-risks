@@ -6,7 +6,7 @@ A Multi State Competing Risks model to predict COVID-19 medical conditions
 * Node >= 13.0
 
 # Quickstart
-```
+```sh
 cd competing-risks/client
 npm run build
 cd ..
