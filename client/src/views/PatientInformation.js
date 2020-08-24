@@ -48,7 +48,7 @@ const possibleStateTransition = state => {
     }
     // Transition from Severe
     if (state === 4) {
-        return ['Moderate / Severe', 'Recovered / OOHQ']
+        return ['Moderate / Severe']
     }
     // Transition from OOHQ
     if (state === 16) {
