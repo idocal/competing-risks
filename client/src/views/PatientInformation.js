@@ -90,13 +90,18 @@ export default function PatientInformation({ getAnalysis }) {
         lastState = lastState.medicalState
         let nextPossibleStates = possibleStateTransition(lastState)
         let possibleStates = [...info.possibleStates, nextPossibleStates]
+        
+        let startState = info.startState
+        if (startState.hospital === 0) {
+            startState.hospital = 1
+        }
 
         let newState = {
             medicalState: medicalStates[nextPossibleStates[0]],
             hospital: 1
         }
         let states = [...info.states, newState]
-        setInfo({ ...info, states, possibleStates })
+        setInfo({ ...info, startState, states, possibleStates })
     }
 
     return (
@@ -240,7 +245,11 @@ export default function PatientInformation({ getAnalysis }) {
                                 </ListGroupItem>
                             </ListGroup>
                         </Card>
-                        <div className="footer">Website designed and developed by <a href="https://www.idocal.com" target="_blank" rel="noopener noreferrer">Ido Calman</a></div>
+                        <div className="footer">
+                            <div style={{fontSize: '0.9rem'}}><span style={{color: "#c4183c", fontWeight: 700}}>NOTICE:</span> The calculator is based on Israeli patient data up to early May 2020. <br />The calculator will be updated as more recent data becomes available.</div>
+                            <div style={{marginTop: '10px'}}>Website designed and developed by <a href="https://www.idocal.com" target="_blank" rel="noopener noreferrer">Ido Calman</a></div>
+                            
+                        </div>
                     </Col>
                 </Row>
             </Container>
