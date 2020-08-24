@@ -27,7 +27,7 @@ const startMedicalStates = {
 const medicalStates = {
     'Moderate / Severe': 23,
     'Critical': 4,
-    'Recovered / OOHQ': 16
+    'Discharged': 16
 }
 
 const initialState = {
@@ -44,7 +44,7 @@ const initialState = {
 const possibleStateTransition = state => {
     // Transition from Mild/Moderate
     if (state === 2 || state === 3 || state === 23) {
-        return ['Critical', 'Recovered / OOHQ']
+        return ['Critical', 'Discharged']
     }
     // Transition from Severe
     if (state === 4) {
@@ -110,7 +110,7 @@ export default function PatientInformation({ getAnalysis }) {
             <Container fluid className="main-content-container px-4">
                 <Row>
                     <Col lg={{ size: 8, offset: 2 }} className="mb-4">
-                        <h4 className="text-center">Online Risk and Length-of-Stay Calculator for Hospitalized Patients</h4>
+                        <h4 className="text-center">Online Risk and Length-of-Stay Calculator for Hospitalized COVID-19 Patients</h4>
                         <h5 className="text-center">Based on <a href="#">Multi State Competing Risk</a></h5>
                         <h6 className="text-center">by Name 1, Name 2, Name 3, Name 4, Name 5, Name 6, Name 7, Name 8, Name 9</h6>
                     </Col>
@@ -162,7 +162,7 @@ export default function PatientInformation({ getAnalysis }) {
                                                 <Row form>
                                                     <Col md="6" className="form-group">
                                                         <Row form>
-                                                            <label htmlFor="feState">Start State</label>
+                                                            <label htmlFor="feState">Initial Clinical State</label>
                                                             <FormSelect disabled={info.states.length} onChange={event => setStartMedicalState(event.target.value)}
                                                                 id="feState" style={{ marginTop: '15px', width: '200px' }}>
                                                                 {
@@ -174,7 +174,7 @@ export default function PatientInformation({ getAnalysis }) {
                                                         </Row>
                                                     </Col>
                                                     <Col md="6" className="form-group">
-                                                        <label htmlFor="feAge">Days in Hospital</label>
+                                                        <label htmlFor="feAge">Days in State</label>
                                                         <Slider
                                                             className="hospital-slider"
                                                             connect={[true, false]}
@@ -199,7 +199,7 @@ export default function PatientInformation({ getAnalysis }) {
                                                             <Row key={key} form>
                                                                 <Col md="6" className="form-group">
                                                                     <Row form>
-                                                                        <label htmlFor="feState">State {key + 1}</label>
+                                                                        <label htmlFor="feState">Clinical State {key + 1}</label>
                                                                         <FormSelect disabled={key !== info.states.length - 1} onChange={event => setMedicalState(event.target.value, key)}
                                                                             id="feState" style={{ marginTop: '15px', width: '200px' }}>
                                                                             {
@@ -211,7 +211,7 @@ export default function PatientInformation({ getAnalysis }) {
                                                                     </Row>
                                                                 </Col>
                                                                 <Col md="6" className="form-group">
-                                                                    <label htmlFor="feAge">Days in Hospital</label>
+                                                                    <label htmlFor="feAge">Days in State</label>
                                                                     <Slider
                                                                         className="hospital-slider"
                                                                         connect={[true, false]}
