@@ -110,7 +110,7 @@ get_patient <- function(age, gender, start_state_type, start_state, states) {
         time_in_hospital <- 0
         origin_state <- patient$state_at_T
     }
-
+    set.seed(params$seed)
     patient$all_runs <- model$run_monte_carlo_simulation(
                                 patient$covariates_at_T,
                                 origin_state = origin_state,
