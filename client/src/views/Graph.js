@@ -10,7 +10,7 @@ class Graph extends React.Component {
         labels: props.x.sort(function(a,b){return a - b}),
         datasets: [
           {
-            label: "Probability of Hospital Time",
+            label: "Probability of length-of-stay no more than",
             fill: "start",
             data: props.y.sort(),
             backgroundColor: "rgba(0,123,255,0.1)",
@@ -52,6 +52,10 @@ class Graph extends React.Component {
                   // Jump every 7 values on the X axis labels to avoid clutter.
                   return index % 2 !== 0 ? "" : tick;
                 }
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Days'
               }
             }
           ],
@@ -59,6 +63,10 @@ class Graph extends React.Component {
             {
               ticks: {
                 suggestedMax: 1
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Probability'
               }
             }
           ]
@@ -93,16 +101,17 @@ class Graph extends React.Component {
   }
 
   render() {
-    const { title } = this.props;
+    const { title, subtitle } = this.props;
     return (
       <Card small className="h-100">
         <CardHeader className="border-bottom">
           <h6 className="m-0">{title}</h6>
+          <h6 className="m-0 subtitle">{subtitle}</h6>
         </CardHeader>
         <CardBody className="pt-0">
 
           <canvas
-            height="120"
+            height="50"
             ref={this.canvasRef}
             style={{ maxWidth: "100% !important" }}
           />
@@ -128,7 +137,8 @@ Graph.propTypes = {
 };
 
 Graph.defaultProps = {
-  title: "Time Left in Hospital CDF"
+  title: "Cumulative Distribution Function (CDF)",
+  subtitle: 'Probability of length-of-stay being no more than given number of days'
 };
 
 export default Graph;

@@ -35,10 +35,10 @@ const initialState = {
     gender: 1,
     startState: {
         medicalState: startMedicalStates['Moderate'],
-        hospital: 5
+        hospital: 0
     },
     states: [],
-    possibleStates : []
+    possibleStates: []
 }
 
 const possibleStateTransition = state => {
@@ -77,12 +77,12 @@ export default function PatientInformation({ getAnalysis }) {
     const setMedicalState = (s, i) => {
         let states = info.states
         states[i].medicalState = medicalStates[s]
-        setInfo({...info, states})
+        setInfo({ ...info, states })
     }
     const setHospital = (days, i) => {
         let states = info.states
         states[i].hospital = days[0] | 0
-        setInfo({...info, states})
+        setInfo({ ...info, states })
     }
     const addState = () => {
         let currentStates = info.states.length
@@ -101,7 +101,15 @@ export default function PatientInformation({ getAnalysis }) {
 
     return (
         <div className="center">
+
             <Container fluid className="main-content-container px-4">
+                <Row>
+                    <Col lg={{ size: 8, offset: 2 }} className="mb-4">
+                        <h4 className="text-center">Online Risk and Length-of-Stay Calculator for Hospitalized Patients</h4>
+                        <h5 className="text-center">Based on <a href="#">Multi State Competing Risk</a></h5>
+                        <h6 className="text-center">by Name 1, Name 2, Name 3, Name 4, Name 5, Name 6, Name 7, Name 8, Name 9</h6>
+                    </Col>
+                </Row>
                 <Row>
                     <Col lg={{ size: 8, offset: 2 }} className="mb-4">
                         <Card small>
@@ -126,7 +134,7 @@ export default function PatientInformation({ getAnalysis }) {
                                                             step={1}
                                                             pips={{
                                                                 mode: "positions",
-                                                                values: [0, 39, 70, 100],
+                                                                values: [3, 27, 51, 75],
                                                                 stepped: true,
                                                                 density: 5
                                                             }}
@@ -136,7 +144,7 @@ export default function PatientInformation({ getAnalysis }) {
                                                     <Col md="6" className="form-group">
                                                         <label htmlFor="feGender">Sex</label>
                                                         <FormSelect onChange={event => setGender(event.target.value)}
-                                                            id="feGender" style={{ marginTop: '15px' }}>
+                                                            id="feGender" style={{ marginTop: '15px', width: '200px' }}>
                                                             {
                                                                 Object.keys(genders).map((gender) => (
                                                                     <option key={gender}>{gender}</option>
@@ -150,8 +158,8 @@ export default function PatientInformation({ getAnalysis }) {
                                                     <Col md="6" className="form-group">
                                                         <Row form>
                                                             <label htmlFor="feState">Start State</label>
-                                                            <FormSelect disabled = {info.states.length} onChange={event => setStartMedicalState(event.target.value)}
-                                                                id="feState" style={{ marginTop: '15px' }}>
+                                                            <FormSelect disabled={info.states.length} onChange={event => setStartMedicalState(event.target.value)}
+                                                                id="feState" style={{ marginTop: '15px', width: '200px' }}>
                                                                 {
                                                                     Object.keys(startMedicalStates).map((s) => (
                                                                         <option key={s}>{s}</option>
@@ -187,8 +195,8 @@ export default function PatientInformation({ getAnalysis }) {
                                                                 <Col md="6" className="form-group">
                                                                     <Row form>
                                                                         <label htmlFor="feState">State {key + 1}</label>
-                                                                        <FormSelect disabled = {key !== info.states.length - 1} onChange={event => setMedicalState(event.target.value, key)}
-                                                                            id="feState" style={{ marginTop: '15px' }}>
+                                                                        <FormSelect disabled={key !== info.states.length - 1} onChange={event => setMedicalState(event.target.value, key)}
+                                                                            id="feState" style={{ marginTop: '15px', width: '200px' }}>
                                                                             {
                                                                                 Object.keys(options).map((option) => (
                                                                                     <option key={option}>{options[option]}</option>
@@ -232,7 +240,7 @@ export default function PatientInformation({ getAnalysis }) {
                                 </ListGroupItem>
                             </ListGroup>
                         </Card>
-                        <div className="footer">Designed and developed by <a href="https://www.idocal.com" target="_blank" rel="noopener noreferrer">Ido Calman</a></div>
+                        <div className="footer">Website designed and developed by <a href="https://www.idocal.com" target="_blank" rel="noopener noreferrer">Ido Calman</a></div>
                     </Col>
                 </Row>
             </Container>

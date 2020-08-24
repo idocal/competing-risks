@@ -11,6 +11,18 @@ html, body, #root {
     justify-content: center;
 }
 
+label {
+    width: 100%;
+}
+
+.noUi-pips {
+    font-size: 0.8rem;
+}
+
+.age-slider, .hospital-slider {
+    width: 90%;
+}
+
 .subtitle {
     font-weight: 400;
     font-size: 0.8rem;
