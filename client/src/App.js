@@ -13,26 +13,19 @@ const initialState = {
   patient: {}
 }
 
-const stateType = function(state) {
-  if (state === 2 || state === 3) {
-    return 23
-  }
-  return state
-}
-
 export default function() {
   const [appState, setAppState] = useState(initialState)
   async function getAnalysis({age, gender, startState, states}) {
     let start_state_type = startState.medicalState
-    let start_state = stateType(startState.medicalState)
     setAppState({analysis: {}, isLoading: true, patient: {}})
+    states = [startState, ...states]
     const response = await fetch("/patient", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({age, gender, start_state_type, start_state, states})
+      body: JSON.stringify({age, gender, start_state_type, states})
     });
     const content = await response.json();
     content.hospital.x = content.hospital.x.slice(0, content.hospital.x.length - 1)
@@ -41,7 +34,7 @@ export default function() {
     setAppState({
       analysis: content,
       isLoading: false,
-      patient: {age, gender, startState, states}
+      patient: {age, gender, states}
     })
   }
 

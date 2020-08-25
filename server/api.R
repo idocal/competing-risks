@@ -14,11 +14,10 @@ cors <- function(res) {
 }
 
 #* @post /patient
-function(age, gender, start_state_type, start_state, states) {
+function(age, gender, start_state_type, states) {
   patient <- get_patient(age = as.numeric(age),
                         gender = as.numeric(gender),
                         start_state_type = as.numeric(start_state_type),
-                        start_state = as.numeric(start_state),
                         states = states)
   death_prob <- get_death_prob(patient$all_runs)
   time_at_hospital <- get_time_at_hospital(patient$all_runs)

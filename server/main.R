@@ -88,28 +88,25 @@ dataset = dataset,
 TERMINAL_STATES,
 update_covariates)
 
-get_patient <- function(age, gender, start_state_type, start_state, states) {
-    print("simulating patient...")
-    covariates <- construct_cov(age, gender, start_state_type)
-    if (length(states)) {
-        medical_states <- c(states$medicalState)
-        times <- c(states$hospital)
-        print(times)
-        print(medical_states)
-        # times <- c(10, 5)
-        # medical_states <- c(MILD_OR_MODERATE, SEVERE)
-        patient <- list(covariates_at_T = covariates, state_at_T = start_state, 
-                        states = medical_states, time_at_each_state = times)
-        patient$covariates_at_T <- get_sample_cov_at_end(patient)
-        time_in_hospital <- sum(patient$time_at_each_state)
-        origin_state <- tail(patient$states, 1)
-    }
+get_start_state <- function(start_state_type) {
+    if (start_state_type == 2 || start_state_type == 3) return(23)
+    return(start_state_type)
+}
 
-    else {
-        patient <- list(covariates_at_T = covariates, state_at_T = start_state)
-        time_in_hospital <- 0
-        origin_state <- patient$state_at_T
-    }
+get_patient <- function(age, gender, start_state_type, states) {
+    print("simulating patient...")
+    print(states)
+    covariates <- construct_cov(age, gender, start_state_type)
+    medical_states <- c(states$medicalState)
+    times <- c(states$hospital)
+    start_state <- get_start_state(start_state_type)
+
+    patient <- list(covariates_at_T = covariates, state_at_T = start_state,
+                    states = medical_states, time_at_each_state = times)
+    time_in_hospital <- sum(patient$time_at_each_state)
+    origin_state <- get_start_state(tail(patient$states, 1))
+    patient$covariates_at_T <- get_sample_cov_at_end(patient)
+    
     set.seed(params$seed)
     patient$all_runs <- model$run_monte_carlo_simulation(
                                 patient$covariates_at_T,
@@ -201,4 +198,3 @@ get_time_at_severe_quantiles <- function(all_runs) {
     times <- as.numeric(lapply(all_runs, function(run) time_at_severe(run)))
     quantile(times[times > 0], probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
 }
-

@@ -26,7 +26,7 @@ const medicalStates = {
     3: 'Severe',
     4: 'Critical',
     23: 'Moderate / Severe',
-    16: 'Recovered / OOHQ'
+    16: 'Discharged'
 }
 
 const formatStates = function (states) {
@@ -93,7 +93,7 @@ export default function Results({ analysis, reset, patient }) {
                                 <span className="info-subtitle" style={{ marginLeft: '10px' }}>Sex:</span> {genders[patient.gender]}
                             </div>
                             <div className="d-flex">
-                                <span className="info-subtitle">States:</span> {formatStates([patient.startState, ...patient.states])}
+                                <span className="info-subtitle">States:</span> {formatStates(patient.states)}
                             </div>
 
 
