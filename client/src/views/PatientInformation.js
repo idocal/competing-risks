@@ -235,7 +235,7 @@ export default function PatientInformation({ getAnalysis }) {
 
                                                 <Row>
                                                     <Col>
-                                                        <Button disabled={info.states.length >= 4} theme="secondary" onClick={() => { addState() }}>Add State</Button>
+                                                        <Button disabled={info.states.length >= 4 || (!info.states.length && !info.startState.hospital)} theme="secondary" onClick={() => { addState() }}>Add State</Button>
                                                         <Button style={{ marginLeft: '10px' }} onClick={() => { getAnalysis(info) }}>Analyze Patient</Button>
                                                     </Col>
                                                 </Row>

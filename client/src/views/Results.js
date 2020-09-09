@@ -73,9 +73,7 @@ export default function Results({ analysis, reset, patient }) {
         <Container fluid className="main-content-container px-4" style={{ marginTop: '15px' }}>
             <Row>
                 <Col lg={{ size: 8, offset: 2 }} className="mb-4">
-                    <h4 className="text-center">Online Risk and Length-of-Stay Calculator for Hospitalized COVID-19 Patients</h4>
-                    <h5 className="text-center">Based on <a href="#">Multi State Competing Risk</a></h5>
-                    <h6 className="text-center">by Name 1, Name 2, Name 3, Name 4, Name 5, Name 6, Name 7, Name 8, Name 9</h6>
+                    <h4 className="text-center">Risk and Length-of-Stay Calculator for Hospitalized COVID-19 Patients</h4>
                 </Col>
             </Row>
             <Row>
