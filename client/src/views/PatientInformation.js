@@ -111,7 +111,7 @@ export default function PatientInformation({ getAnalysis }) {
                 <Row>
                     <Col lg={{ size: 8, offset: 2 }} className="mb-4">
                         <h4 className="text-center">Risk and Length-of-Stay Calculator for Hospitalized COVID-19 Patients</h4>
-                        <h5 className="text-center">Based on <a href="#">Predicting illness trajectory and hospital resource utilization of COVID-19 hospitalized patients - a nationwide study</a></h5>
+                        <h5 className="text-center">Based on <a href="https://www.medrxiv.org/content/10.1101/2020.09.04.20185645v1" target="_blank">Predicting illness trajectory and hospital resource utilization of COVID-19 hospitalized patients - a nationwide study</a></h5>
                         <h6 className="text-center">by Michael Roimi, Rom Gutman, Jonathan Somer, Asaf Ben Arie, Ido Calman, Yaron Bar-Lavie, Udi Gelbshtein, Sigal Liverant-Taub, Arnona Ziv, Danny Eytan, Malka Gorfine, Uri Shalit</h6>
                     </Col>
                 </Row>

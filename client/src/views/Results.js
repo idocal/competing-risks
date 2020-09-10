@@ -36,12 +36,18 @@ const formatStates = function (states) {
     return stateTypes.join(" -> ")
 }
 
+const formatPercentage = function(x) {
+    x = x * 100
+    let formatted = x < 1 ? "<1" : Math.round(x).toString()
+    return formatted + "%"
+}
+
 export default function Results({ analysis, reset, patient }) {
 
     const smallStats = [
         {
             label: "In-hospital Mortality Probability",
-            value: (parseFloat(analysis.death_prob) * 100).toFixed(2) + "%",
+            value: formatPercentage(analysis.death_prob),
             chartLabels: [null, null, null, null, null],
             attrs: { md: "6", sm: "6" },
             datasets: [
@@ -55,7 +61,7 @@ export default function Results({ analysis, reset, patient }) {
         },
         {
             label: "Entering Critical Condition Probability",
-            value: (parseFloat(analysis.severe) * 100).toFixed(2) + "%",
+            value: formatPercentage(analysis.severe),
             chartLabels: [null, null, null, null, null],
             attrs: { md: "6", sm: "6" },
             datasets: [
