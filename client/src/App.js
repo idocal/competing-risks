@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PatientInformation from "./views/PatientInformation";
 import Results from "./views/Results";
+import Welcome from "./views/Welcome";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/shards-dashboards.1.1.0.min.css";
@@ -10,7 +11,8 @@ import "./App.css";
 const initialState = {
   isLoading: false,
   analysis : {},
-  patient: {}
+  patient: {},
+  welcome: true
 }
 
 export default function() {
@@ -42,15 +44,26 @@ export default function() {
     setAppState(initialState)
   }
 
-  const screen = function(analysis) {
-    if (Object.keys(analysis).length) {
+  const start = function() {
+    setAppState({...initialState, welcome: false})
+  }
+
+  const screen = function(analysis, welcome) {
+    console.log('screen', analysis)
+    if (welcome) {
       return (
-        <Results analysis={analysis} reset={reset} patient={appState.patient} />
+        <Welcome start={start} />
       )
     } else {
-      return (
-        <PatientInformation getAnalysis={getAnalysis} />
-      )
+      if (Object.keys(analysis).length) {
+        return (
+          <Results analysis={analysis} reset={reset} patient={appState.patient} />
+        )
+      } else {
+        return (
+          <PatientInformation getAnalysis={getAnalysis} />
+        )
+      }
     }
   }
 
@@ -64,7 +77,7 @@ export default function() {
               Running Monte Carlo Simulations...
             </div>
             </div> :
-          screen(appState.analysis)
+          screen(appState.analysis, appState.welcome)
         }        
       </div>
   )

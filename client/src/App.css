@@ -11,8 +11,18 @@ html, body, #root {
     justify-content: center;
 }
 
+strong {
+    font-weight: 700;
+    color: #222;
+}
+
 label {
     width: 100%;
+}
+
+.quote {
+    padding: 20px 40px;
+    font-style: italic;
 }
 
 .noUi-pips {
